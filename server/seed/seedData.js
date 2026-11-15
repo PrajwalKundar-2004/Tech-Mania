@@ -92,24 +92,26 @@ const seedData = async () => {
       }
     }
 
+    const adminEmail = (process.env.ADMIN_EMAIL || 'mca.techmania@vcetputtur.ac.in').toLowerCase();
     const adminUsername = (process.env.ADMIN_USERNAME || 'admin').toLowerCase();
-    const existingAdmin = await Admin.findOne({ username: adminUsername });
+    const existingAdmin = await Admin.findOne({ email: adminEmail });
     if (!existingAdmin) {
       const adminPassword = process.env.ADMIN_PASSWORD || 'TechMania@2026';
       await Admin.create({
         username: adminUsername,
+        email: adminEmail,
         password: adminPassword,
         name: 'MCA Event Administrator',
         role: 'superadmin',
       });
-      console.log(`[Seed] Admin user created with username: ${adminUsername}`);
+      console.log(`[Seed] Admin user created with email: ${adminEmail}`);
     }
 
     const usnRegexSetting = await Setting.findOne({ key: 'USN_REGEX' });
     if (!usnRegexSetting) {
       await Setting.create({
         key: 'USN_REGEX',
-        value: process.env.USN_REGEX || '^(4VP[0-9]{2}[A-Z]{2}[0-9]{3}|[0-9][A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{3}|[0-9A-Z]{8,12})$',
+        value: process.env.USN_REGEX || '^([1-9]|[1-4][0-9]|5[0-5])$',
         description: 'Regex pattern for University Seat Number (USN) validation',
       });
     }

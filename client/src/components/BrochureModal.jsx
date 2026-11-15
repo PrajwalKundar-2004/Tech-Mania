@@ -30,7 +30,7 @@ export default function BrochureModal({ isOpen, onClose }) {
 
           <div className="flex items-center gap-1.5">
             <a
-              href="/techmania-brochure.jpg"
+              href="/TECHMANIA 2.0.png"
               target="_blank"
               rel="noopener noreferrer"
               className="p-1.5 rounded-lg bg-[#061426] hover:bg-[#0A1930] text-[#94A3B8] hover:text-[#00E5FF] border border-[#00A6FF]/25 transition-colors"
@@ -40,8 +40,8 @@ export default function BrochureModal({ isOpen, onClose }) {
             </a>
 
             <a
-              href="/techmania-brochure.jpg"
-              download="TECHMANIA_2.0_Official_Brochure.jpg"
+              href="/TECHMANIA 2.0.png"
+              download="TECHMANIA 2.0.png"
               className="px-2.5 py-1.5 rounded-lg bg-[#006BFF]/20 hover:bg-[#006BFF]/40 text-[#00E5FF] border border-[#00A6FF]/40 text-xs font-semibold flex items-center gap-1.5 transition-colors"
               title="Download brochure image"
             >
@@ -62,7 +62,7 @@ export default function BrochureModal({ isOpen, onClose }) {
         {/* Brochure Image: Perfectly fitted & centered */}
         <div className="my-2.5 flex-1 min-h-0 flex items-center justify-center overflow-hidden rounded-xl bg-[#020817] p-1 border border-[#00A6FF]/20">
           <img
-            src="/techmania-brochure.jpg"
+            src="/TECHMANIA 2.0.png"
             alt="Official TECHMANIA 2.0 Brochure - VCET MCA"
             className="max-h-[68vh] sm:max-h-[72vh] w-auto h-auto max-w-full object-contain rounded-lg shadow-xl"
           />

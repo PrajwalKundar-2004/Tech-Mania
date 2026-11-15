@@ -108,60 +108,67 @@ export default function Navbar({ onOpenBrochure }) {
             </button>
           </div>
 
-          {/* Mobile Hamburger Button */}
+          {/* Mobile Hamburger Button with Smooth Icon Rotation */}
           <div className="flex items-center sm:hidden space-x-2">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-white hover:text-[#00E5FF] rounded-lg bg-[#0A1930]/80 border border-[#00A6FF]/30"
+              className="p-2 rounded-xl bg-[#0A1930]/90 border border-[#00A6FF]/40 hover:border-[#00E5FF] transition-all shadow-md active:scale-95 cursor-pointer"
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              <div className={`transition-transform duration-300 transform ${mobileMenuOpen ? 'rotate-90 text-[#00E5FF]' : 'rotate-0 text-white'}`}>
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </div>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Menu Dropdown with Silky Smooth Staggering & Fading */}
       {mobileMenuOpen && (
-        <div className="sm:hidden glass-panel mt-3 mx-4 p-5 rounded-2xl border border-[#00E5FF]/30 shadow-2xl space-y-4 animate-in fade-in slide-in-from-top-4">
-          <div className="flex flex-col space-y-3 font-medium text-sm">
+        <div className="sm:hidden glass-panel mt-2.5 mx-3.5 p-4 rounded-2xl border border-[#00E5FF]/40 shadow-[0_12px_40px_rgba(0,0,0,0.85)] space-y-3 animate-mobile-menu backdrop-blur-2xl bg-[#061426]/95 overflow-hidden">
+          <div className="flex flex-col space-y-1 font-medium text-sm">
             <button
               onClick={() => scrollTo('hero')}
-              className="text-left py-2 px-3 rounded-lg text-white hover:bg-[#061426] hover:text-[#00E5FF]"
+              className="animate-nav-item-1 text-left py-2.5 px-3.5 rounded-xl text-white hover:bg-[#0A1930]/90 hover:text-[#00E5FF] active:scale-[0.98] transition-all duration-200 flex items-center justify-between group cursor-pointer"
             >
-              Home
+              <span>Home</span>
+              <span className="text-[#00E5FF] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200">→</span>
             </button>
             <button
               onClick={() => scrollTo('events')}
-              className="text-left py-2 px-3 rounded-lg text-white hover:bg-[#061426] hover:text-[#00E5FF] flex items-center justify-between"
+              className="animate-nav-item-2 text-left py-2.5 px-3.5 rounded-xl text-white hover:bg-[#0A1930]/90 hover:text-[#00E5FF] active:scale-[0.98] transition-all duration-200 flex items-center justify-between group cursor-pointer"
             >
               <span>Explore Events</span>
-              <span className="text-[10px] bg-[#00E5FF]/20 text-[#00E5FF] px-2 py-0.5 rounded-full font-bold">4 Events</span>
+              <span className="text-[10px] bg-[#00E5FF]/15 text-[#00E5FF] border border-[#00E5FF]/30 px-2.5 py-0.5 rounded-full font-bold font-mono">4 Events</span>
             </button>
             <button
               onClick={() => scrollTo('about')}
-              className="text-left py-2 px-3 rounded-lg text-white hover:bg-[#061426] hover:text-[#00E5FF]"
+              className="animate-nav-item-3 text-left py-2.5 px-3.5 rounded-xl text-white hover:bg-[#0A1930]/90 hover:text-[#00E5FF] active:scale-[0.98] transition-all duration-200 flex items-center justify-between group cursor-pointer"
             >
-              About Techmania
+              <span>About TechMania</span>
+              <span className="text-[#00E5FF] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200">→</span>
             </button>
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
                 onOpenBrochure();
               }}
-              className="text-left py-2 px-3 rounded-lg text-[#00E5FF] hover:bg-[#061426] flex items-center gap-2"
+              className="animate-nav-item-4 text-left py-2.5 px-3.5 rounded-xl text-[#00E5FF] hover:bg-[#0A1930]/90 active:scale-[0.98] transition-all duration-200 flex items-center justify-between group cursor-pointer"
             >
-              <Sparkles className="w-4 h-4" />
-              <span>Official Brochure</span>
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-[#00E5FF]" />
+                <span>Official Brochure</span>
+              </div>
+              <span className="text-[10px] uppercase font-mono tracking-wider text-[#00E5FF]/80">View</span>
             </button>
           </div>
 
-          <div className="pt-3 border-t border-[#00A6FF]/20 flex flex-col space-y-2">
+          <div className="animate-nav-item-5 pt-2.5 border-t border-[#00A6FF]/20 flex flex-col space-y-2">
             <button
               onClick={() => scrollTo('events')}
-              className="btn-cyber-primary w-full py-2.5 rounded-xl text-center text-xs uppercase tracking-wider font-bold"
+              className="btn-cyber-primary w-full py-2.5 rounded-xl text-center text-xs uppercase tracking-wider font-bold shadow-lg shadow-[#00A6FF]/30 flex items-center justify-center gap-1.5 active:scale-[0.98] transition-all cursor-pointer"
             >
-              Register for an Event
+              <span>Register Now</span>
             </button>
           </div>
         </div>

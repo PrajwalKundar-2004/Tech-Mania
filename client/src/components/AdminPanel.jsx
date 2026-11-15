@@ -21,7 +21,9 @@ import {
   Sparkles,
   FileSpreadsheet,
   User,
-  Mail
+  Mail,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import { api } from '../services/api';
 
@@ -90,6 +92,7 @@ export default function AdminPanel({ isOpen, onClose, onRefreshEvents }) {
   const [loginForm, setLoginForm] = useState({ username: '', email: '', password: '' });
   const [loginError, setLoginError] = useState('');
   const [loginLoading, setLoginLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   // Events & Registrations Data
   const [events, setEvents] = useState([]);
@@ -244,119 +247,131 @@ export default function AdminPanel({ isOpen, onClose, onRefreshEvents }) {
         onClick={onClose}
       >
         <div 
-          className="relative w-full max-w-md rounded-2xl bg-[#0A1930] border-2 border-[#00E5FF]/60 shadow-2xl shadow-black/90 p-6 sm:p-8 overflow-hidden animate-in zoom-in-95 duration-200 my-auto"
+          className="relative w-full max-w-[330px] sm:max-w-[350px] rounded-2xl bg-[#0A1930] border-2 border-[#00E5FF]/60 shadow-2xl shadow-black/90 p-4 sm:p-5 overflow-hidden animate-in zoom-in-95 duration-200 my-auto"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Decorative ambient corner glow */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#00E5FF]/15 via-transparent to-transparent pointer-events-none"></div>
+          <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-[#00E5FF]/15 via-transparent to-transparent pointer-events-none"></div>
 
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-1.5 rounded-lg text-[#94A3B8] hover:text-white hover:bg-[#061426] transition-colors"
+            className="absolute top-3 right-3 p-1 rounded-lg text-[#94A3B8] hover:text-white hover:bg-[#061426] transition-colors"
             title="Close"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
 
-          {/* Icon & Title Header */}
-          <div className="text-center mb-6">
-            <div className="w-12 h-12 rounded-xl bg-[#006BFF]/20 border border-[#00E5FF]/50 text-[#00E5FF] flex items-center justify-center mx-auto mb-3 shadow-md shadow-[#00E5FF]/20">
-              <Lock className="w-6 h-6" />
+          {/* Icon & Title Header (Compact) */}
+          <div className="text-center mb-3.5">
+            <div className="w-9 h-9 rounded-lg bg-[#006BFF]/20 border border-[#00E5FF]/50 text-[#00E5FF] flex items-center justify-center mx-auto mb-1.5 shadow-md shadow-[#00E5FF]/20">
+              <Lock className="w-4 h-4" />
             </div>
 
-            <h3 className="text-xl font-black text-white tracking-wide font-mono">
+            <h3 className="text-base font-black text-white tracking-wide font-mono">
               Admin Portal
             </h3>
-            <span className="text-[10px] uppercase font-mono px-2.5 py-0.5 rounded-full bg-[#00E5FF]/15 text-[#00E5FF] font-bold border border-[#00E5FF]/30 mt-1 inline-block">
+            <span className="text-[9px] uppercase font-mono px-2 py-0.5 rounded-full bg-[#00E5FF]/15 text-[#00E5FF] font-bold border border-[#00E5FF]/30 mt-0.5 inline-block">
               TECHMANIA 2.0 • VCET MCA
             </span>
-            <p className="text-xs text-[#94A3B8] mt-2">
-              Enter administrative credentials to manage registrations.
-            </p>
           </div>
 
           {/* Error Alert */}
           {loginError && (
-            <div className="mb-4 p-3 rounded-xl bg-rose-950/80 border border-rose-500/50 text-rose-300 text-xs flex items-center gap-2 animate-in fade-in">
-              <AlertCircle className="w-4 h-4 text-rose-400 flex-shrink-0" />
+            <div className="mb-2.5 p-2 rounded-lg bg-rose-950/80 border border-rose-500/50 text-rose-300 text-[11px] flex items-center gap-1.5 animate-in fade-in">
+              <AlertCircle className="w-3.5 h-3.5 text-rose-400 flex-shrink-0" />
               <span>{loginError}</span>
             </div>
           )}
 
           {/* Login Form (Username, Email, Password) */}
-          <form onSubmit={handleLogin} className="space-y-3.5">
+          <form onSubmit={handleLogin} className="space-y-2.5">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#94A3B8] mb-1 font-mono flex items-center justify-between">
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-[#94A3B8] mb-1 font-mono flex items-center justify-between">
                 <span>Username</span>
-                <span className="text-[10px] text-[#00E5FF] font-normal lowercase">(can be anything)</span>
+                <span className="text-[9px] text-[#00E5FF] font-normal lowercase">(any name)</span>
               </label>
               <div className="relative">
-                <User className="w-4 h-4 text-[#94A3B8] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <User className="w-3.5 h-3.5 text-[#94A3B8] absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   value={loginForm.username}
                   onChange={(e) => setLoginForm({ ...loginForm, username: e.target.value })}
-                  placeholder="Enter any username or your name"
+                  placeholder="Enter username or name"
                   required
                   autoFocus
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#061426] text-white text-xs sm:text-sm border border-[#00A6FF]/30 focus:border-[#00E5FF] focus:outline-none transition-colors"
+                  className="w-full pl-8 pr-3 py-1.5 rounded-lg bg-[#061426] text-white text-xs border border-[#00A6FF]/30 focus:border-[#00E5FF] focus:outline-none transition-colors"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#94A3B8] mb-1 font-mono">
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-[#94A3B8] mb-1 font-mono">
                 Admin Email
               </label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-[#94A3B8] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Mail className="w-3.5 h-3.5 text-[#94A3B8] absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="email"
                   value={loginForm.email}
                   onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
-                  placeholder="e.g. mca.techmania@vcetputtur.ac.in"
+                  placeholder="mca.techmania@vcetputtur.ac.in"
                   required
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#061426] text-white text-xs sm:text-sm border border-[#00A6FF]/30 focus:border-[#00E5FF] focus:outline-none transition-colors"
+                  className="w-full pl-8 pr-3 py-1.5 rounded-lg bg-[#061426] text-white text-xs border border-[#00A6FF]/30 focus:border-[#00E5FF] focus:outline-none transition-colors"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#94A3B8] mb-1 font-mono">
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-[#94A3B8] mb-1 font-mono">
                 Password
               </label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-[#94A3B8] absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Lock className="w-3.5 h-3.5 text-[#94A3B8] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   value={loginForm.password}
                   onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
                   placeholder="••••••••••••"
                   required
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#061426] text-white text-xs sm:text-sm border border-[#00A6FF]/30 focus:border-[#00E5FF] focus:outline-none transition-colors"
+                  className="w-full pl-8 pr-8 py-1.5 rounded-lg bg-[#061426] text-white text-xs border border-[#00A6FF]/30 focus:border-[#00E5FF] focus:outline-none transition-colors"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 text-[#94A3B8] hover:text-[#00E5FF] transition-colors focus:outline-none cursor-pointer"
+                  title={showPassword ? 'Hide password' : 'Show password'}
+                  tabIndex={-1}
+                >
+                  {showPassword ? (
+                    <EyeOff className="w-3.5 h-3.5" />
+                  ) : (
+                    <Eye className="w-3.5 h-3.5" />
+                  )}
+                </button>
               </div>
             </div>
 
-            <button
-              type="submit"
-              disabled={loginLoading}
-              className="btn-cyber-primary w-full py-3 rounded-xl font-bold uppercase tracking-wider text-xs shadow-lg mt-2 flex items-center justify-center gap-2"
-            >
-              {loginLoading ? (
-                <span>Authenticating...</span>
-              ) : (
-                <>
-                  <Lock className="w-4 h-4" />
-                  <span>Unlock Admin Portal</span>
-                </>
-              )}
-            </button>
+            <div className="flex justify-center pt-1.5">
+              <button
+                type="submit"
+                disabled={loginLoading}
+                className="btn-cyber-primary px-6 py-1.5 rounded-lg font-bold uppercase tracking-wider text-xs shadow-md flex items-center justify-center gap-1.5 transition-all hover:scale-105 active:scale-95"
+              >
+                {loginLoading ? (
+                  <span>Logging in...</span>
+                ) : (
+                  <>
+                    <Lock className="w-3 h-3" />
+                    <span>Login</span>
+                  </>
+                )}
+              </button>
+            </div>
           </form>
 
-          <div className="mt-6 pt-4 border-t border-[#00A6FF]/20 text-center text-[10px] text-[#94A3B8] font-mono">
-            Department of MCA • Vivekananda College of Engg. & Tech.
+          <div className="mt-3.5 pt-2.5 border-t border-[#00A6FF]/20 text-center text-[9px] text-[#94A3B8]/80 font-mono">
+            Department of MCA • VCET Puttur
           </div>
         </div>
       </div>
@@ -369,52 +384,53 @@ export default function AdminPanel({ isOpen, onClose, onRefreshEvents }) {
       <div className="relative w-full h-full flex flex-col overflow-hidden bg-[#0A1930]">
         
         {/* ================= TOP NAVBAR ================= */}
-        <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-[#00A6FF]/30 bg-[#061426] flex-shrink-0">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 rounded-xl bg-[#006BFF]/20 border border-[#00E5FF]/40 text-[#00E5FF]">
-              <ShieldCheck className="w-5 h-5" />
+        <div className="flex items-center justify-between px-3 sm:px-6 py-2.5 sm:py-3.5 border-b border-[#00A6FF]/30 bg-[#061426] flex-shrink-0">
+          <div className="flex items-center space-x-2 sm:space-x-3 min-w-0">
+            <div className="p-1.5 sm:p-2 rounded-lg sm:rounded-xl bg-[#006BFF]/20 border border-[#00E5FF]/40 text-[#00E5FF] flex-shrink-0">
+              <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-base sm:text-lg font-black text-white tracking-wide">
-                  TECHMANIA 2.0 • ADMIN PORTAL
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <h3 className="text-xs sm:text-base font-black text-white tracking-wide truncate font-mono">
+                  <span className="hidden sm:inline">TECHMANIA 2.0 • </span>ADMIN PORTAL
                 </h3>
-                <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-[#00E5FF]/20 text-[#00E5FF] font-bold">
+                <span className="hidden sm:inline-block text-[9px] sm:text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-[#00E5FF]/20 text-[#00E5FF] font-bold">
                   VCET MCA
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-xs font-mono mt-0.5 flex-wrap">
-                <span className="text-emerald-400 font-bold flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                  Username: <span className="text-[#00E5FF] font-black bg-[#020817] px-2 py-0.5 rounded border border-[#00E5FF]/40">{adminUser?.username || 'admin'}</span>
+              <div className="flex items-center gap-1.5 text-[10px] sm:text-xs font-mono mt-0.5">
+                <span className="text-emerald-400 font-bold flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span className="text-[#94A3B8]">User:</span>
+                  <span className="text-[#00E5FF] font-black bg-[#020817] px-1.5 py-0.5 rounded border border-[#00E5FF]/40 max-w-[110px] sm:max-w-none truncate inline-block align-bottom">{adminUser?.username || 'admin'}</span>
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1.5 sm:space-x-2 flex-shrink-0">
             <button
               onClick={fetchAllData}
               disabled={loadingData}
-              className="p-2 rounded-lg bg-[#0A1930] hover:bg-[#020817] text-[#00E5FF] border border-[#00A6FF]/30 text-xs font-semibold flex items-center gap-1.5 transition-colors"
+              className="p-1.5 sm:p-2 rounded-lg bg-[#0A1930] hover:bg-[#020817] text-[#00E5FF] border border-[#00A6FF]/30 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
               title="Refresh Data"
             >
-              <RefreshCw className={`w-4 h-4 ${loadingData ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${loadingData ? 'animate-spin' : ''}`} />
               <span className="hidden md:inline">Refresh</span>
             </button>
 
             <button
               onClick={() => handleExportCsv('all')}
-              className="px-3 py-1.5 rounded-lg bg-[#006BFF]/20 hover:bg-[#006BFF]/40 text-[#00E5FF] border border-[#00A6FF]/40 text-xs font-semibold flex items-center gap-1.5 transition-colors"
+              className="p-1.5 sm:px-3 sm:py-1.5 rounded-lg bg-[#006BFF]/20 hover:bg-[#006BFF]/40 text-[#00E5FF] border border-[#00A6FF]/40 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
               title="Export All Registrations to Excel/CSV"
             >
               <FileSpreadsheet className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Export All CSV</span>
+              <span className="hidden sm:inline">Export CSV</span>
             </button>
 
             <button
               onClick={handleLogout}
-              className="px-3 py-1.5 rounded-lg bg-rose-950/60 hover:bg-rose-900/80 text-rose-300 border border-rose-500/40 text-xs font-semibold flex items-center gap-1.5 transition-colors"
+              className="p-1.5 sm:px-3 sm:py-1.5 rounded-lg bg-rose-950/60 hover:bg-rose-900/80 text-rose-300 border border-rose-500/40 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
               title="Logout"
             >
               <LogOut className="w-3.5 h-3.5" />
@@ -423,72 +439,72 @@ export default function AdminPanel({ isOpen, onClose, onRefreshEvents }) {
 
             <button
               onClick={onClose}
-              className="p-1.5 rounded-lg text-[#94A3B8] hover:text-white hover:bg-[#020817] transition-colors"
+              className="p-1.5 rounded-lg text-[#94A3B8] hover:text-white hover:bg-[#020817] transition-colors cursor-pointer"
               title="Close Admin Portal"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
         </div>
 
         {/* Toast alert banner if any */}
         {toastMsg && (
-          <div className="bg-emerald-950/90 border-b border-emerald-500/40 px-4 py-2.5 text-xs text-emerald-300 flex items-center gap-2 animate-in fade-in">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+          <div className="bg-emerald-950/90 border-b border-emerald-500/40 px-3 sm:px-4 py-2 text-[11px] sm:text-xs text-emerald-300 flex items-center gap-2 animate-in fade-in">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
             <span>{toastMsg}</span>
           </div>
         )}
 
         {/* ================= CONTENT BODY (FULL WIDTH) ================= */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6 w-full">
+        <div className="flex-1 overflow-y-auto p-3 sm:p-6 lg:p-8 space-y-3.5 sm:space-y-6 w-full">
 
           {/* Summary Overview Cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                <div className="col-span-2 sm:col-span-1 p-3 rounded-xl bg-[#061426] border border-[#00A6FF]/30 text-center">
-                  <span className="text-[10px] uppercase font-bold text-[#94A3B8] tracking-wider block font-mono">
-                    Total Enrolled
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-3">
+            <div className="col-span-2 sm:col-span-1 p-2 sm:p-3 rounded-xl bg-[#061426] border border-[#00A6FF]/30 text-center flex flex-col justify-center">
+              <span className="text-[9px] sm:text-[10px] uppercase font-bold text-[#94A3B8] tracking-wider block font-mono">
+                Total Enrolled
+              </span>
+              <div className="mt-0.5 sm:mt-1 flex items-baseline justify-center gap-1">
+                <span className="text-lg sm:text-2xl font-black font-mono text-emerald-400">{totalRegistrations}</span>
+                <span className="text-[10px] sm:text-xs text-[#94A3B8] font-mono">/ {totalCapacity}</span>
+              </div>
+            </div>
+
+            {eventsWithStudents.map((ev) => {
+              const visuals = getEventVisuals(ev.name, ev.code);
+              return (
+                <div key={ev.id || ev._id} className="p-2 sm:p-3 rounded-xl bg-[#061426] border border-[#00A6FF]/20 text-center flex flex-col justify-center">
+                  <span className="text-[9px] sm:text-[10px] uppercase font-bold text-[#94A3B8] truncate block">
+                    {ev.name}
                   </span>
-                  <div className="mt-1 flex items-baseline justify-center gap-1">
-                    <span className="text-2xl font-black font-mono text-emerald-400">{totalRegistrations}</span>
-                    <span className="text-xs text-[#94A3B8] font-mono">/ {totalCapacity}</span>
+                  <div className="mt-0.5 sm:mt-1 flex items-baseline justify-center gap-1">
+                    <span className={`text-base sm:text-xl font-black font-mono ${visuals.color}`}>{ev.totalEnrolled}</span>
+                    <span className="text-[10px] sm:text-xs text-[#94A3B8] font-mono">/ {ev.maxCapacity}</span>
                   </div>
                 </div>
+              );
+            })}
+          </div>
 
-                {eventsWithStudents.map((ev) => {
-                  const visuals = getEventVisuals(ev.name, ev.code);
-                  return (
-                    <div key={ev.id || ev._id} className="p-3 rounded-xl bg-[#061426] border border-[#00A6FF]/20 text-center">
-                      <span className="text-[10px] uppercase font-bold text-[#94A3B8] truncate block">
-                        {ev.name}
-                      </span>
-                      <div className="mt-1 flex items-baseline justify-center gap-1">
-                        <span className={`text-xl font-black font-mono ${visuals.color}`}>{ev.totalEnrolled}</span>
-                        <span className="text-xs text-[#94A3B8] font-mono">/ {ev.maxCapacity}</span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Real-time Search Filter Bar */}
-              <div className="relative">
-                <Search className="w-4 h-4 text-[#94A3B8] absolute left-3.5 top-1/2 -translate-y-1/2" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Filter enrolled students by Reg No (1-55), Name, USN, or Email..."
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#061426] text-white text-xs sm:text-sm border border-[#00A6FF]/30 focus:border-[#00E5FF] focus:outline-none placeholder:text-[#94A3B8]/60"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery('')}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-[#94A3B8] hover:text-white"
-                  >
-                    Clear
-                  </button>
-                )}
-              </div>
+          {/* Real-time Search Filter Bar */}
+          <div className="relative">
+            <Search className="w-3.5 h-3.5 text-[#94A3B8] absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search by Reg No, Name, USN, or Email..."
+              className="w-full pl-8 sm:pl-10 pr-4 py-2 sm:py-2.5 rounded-xl bg-[#061426] text-white text-xs sm:text-sm border border-[#00A6FF]/30 focus:border-[#00E5FF] focus:outline-none placeholder:text-[#94A3B8]/60"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#94A3B8] hover:text-white"
+              >
+                Clear
+              </button>
+            )}
+          </div>
 
               {/* ================= EVENTS LIST WITH ENROLLED STUDENTS UNDER EACH ================= */}
               <div className="space-y-6">
